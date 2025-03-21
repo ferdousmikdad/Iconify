@@ -579,8 +579,7 @@ export class UIManager {
         
         // Create new toast
         const toast = document.createElement('div');
-        toast.className = 'toast';
-        toast.style.backgroundColor = type === 'success' ? '#10b981' : '#ef4444';
+        toast.className = `toast ${type}`;  // Add type class
         toast.textContent = message;
         
         // Add to document
