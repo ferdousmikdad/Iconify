@@ -85,25 +85,35 @@
     background: #a0a0a0;
 }
 
-/* Toast notification */
+/* Updated Toast notification - positioned at top right with gray-100 background */
 .toast {
     position: fixed;
-    bottom: 20px;
+    top: 20px;  /* Changed from bottom to top */
     right: 20px;
     padding: 12px 20px;
-    background-color: #10b981;
-    color: white;
+    background-color: #f3f4f6;  /* Changed to gray-100 */
+    color: #1f2937;  /* Changed text color to darker for better contrast */
     border-radius: 6px;
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-    transform: translateY(100px);
+    transform: translateY(-100px);  /* Changed to move from top */
     opacity: 0;
     transition: transform 0.3s ease, opacity 0.3s ease;
     z-index: 100;
+    border: 1px solid #e5e7eb;  /* Added border for better visibility */
 }
 
 .toast.show {
     transform: translateY(0);
     opacity: 1;
+}
+
+/* Toast types - keep success and error styles but override background */
+.toast.success {
+    border-left: 4px solid #10b981;  /* Green left border for success */
+}
+
+.toast.error {
+    border-left: 4px solid #ef4444;  /* Red left border for error */
 }
 
 /* Active category highlight */
