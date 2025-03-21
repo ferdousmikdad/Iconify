@@ -33,6 +33,7 @@ A modern, responsive SVG icon library web application inspired by Heroicons. Thi
  ┣ 📂 assets
  ┃ ┗ 📂 solid    all icon in svg format ...
  ┃ ┗ 📂 stroke        # Any assets you want to add
+ ┃ ┗ 📂 stroke  
  ┣ 📜 index.html            # Main HTML file
  ┗ 📜 README.md             # Project documentation
 ```

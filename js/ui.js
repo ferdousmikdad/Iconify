@@ -10,7 +10,6 @@ export class UIManager {
         // DOM Elements
         this.elements = {
             iconsGrid: document.getElementById('iconsGrid'),
-            categoriesList: document.getElementById('categoriesList'),
             categoryFilter: document.getElementById('categoryFilter'),
             subcategoryFilter: document.getElementById('subcategoryFilter'),
             mainSearchInput: document.getElementById('mainSearchInput'),
@@ -35,7 +34,7 @@ export class UIManager {
         };
     }
 
-    // Render categories in the sidebar and category dropdown
+    // Render categories in the dropdown (removed sidebar rendering)
     renderCategories() {
         // Add 'All' option
         const categories = [
@@ -43,41 +42,14 @@ export class UIManager {
             ...this.state.categories
         ];
         
-        // Clear and rebuild the categories list
-        this.elements.categoriesList.innerHTML = '';
+        // Clear and rebuild the categories dropdown
         this.elements.categoryFilter.innerHTML = '';
         
-        // Add to sidebar
+        // Add to category dropdown
         categories.forEach(category => {
-            const li = document.createElement('li');
-            const categoryName = category.name;
-            
-            li.innerHTML = `
-                <button class="w-full text-left py-1 px-2 rounded hover:bg-gray-100 ${
-                    this.state.currentCategory === category.id ? 'category-active' : 'text-gray-700'
-                }" data-category="${category.id}">
-                    ${categoryName}
-                </button>
-            `;
-            
-            // Add event listener
-            const button = li.querySelector('button');
-            button.addEventListener('click', () => {
-                this.state.setCategory(category.id);
-                this.state.setSubcategory('all'); // Reset subcategory when changing category
-                this.state.applyFilters();
-                this.updateCategoryHighlight();
-                this.renderSubcategories(); // Update subcategory dropdown
-                this.renderIcons();
-                this.updateStats();
-            });
-            
-            this.elements.categoriesList.appendChild(li);
-            
-            // Add to category dropdown
             const option = document.createElement('option');
             option.value = category.id;
-            option.textContent = categoryName;
+            option.textContent = category.name;
             if (this.state.currentCategory === category.id) {
                 option.selected = true;
             }
@@ -89,7 +61,6 @@ export class UIManager {
             this.state.setCategory(e.target.value);
             this.state.setSubcategory('all'); // Reset subcategory when changing category
             this.state.applyFilters();
-            this.updateCategoryHighlight();
             this.renderSubcategories(); // Update subcategory dropdown
             this.renderIcons();
             this.updateStats();
@@ -133,19 +104,8 @@ export class UIManager {
         });
     }
 
-    // Update the active category highlight
+    // Update the active category highlight (simplified without sidebar)
     updateCategoryHighlight() {
-        const categoryButtons = this.elements.categoriesList.querySelectorAll('button');
-        categoryButtons.forEach(button => {
-            if (button.dataset.category === this.state.currentCategory) {
-                button.classList.add('category-active');
-                button.classList.remove('text-gray-700');
-            } else {
-                button.classList.remove('category-active');
-                button.classList.add('text-gray-700');
-            }
-        });
-        
         // Update dropdown
         this.elements.categoryFilter.value = this.state.currentCategory;
     }
@@ -174,7 +134,7 @@ export class UIManager {
         // Create placeholders for all icons
         icons.forEach(icon => {
             const iconDiv = document.createElement('div');
-            iconDiv.className = 'icon-item bg-white border border-gray-200 rounded-lg p-4 flex flex-col items-center cursor-pointer';
+            iconDiv.className = 'icon-item bg-white border border-gray-200 rounded-lg p-4 flex flex-col items-center cursor-pointer relative';
             iconDiv.setAttribute('data-id', icon.id);
             
             // Create placeholder structure
@@ -183,19 +143,38 @@ export class UIManager {
                     <div class="animate-pulse bg-gray-200 w-16 h-16 rounded"></div>
                 </div>
                 <div class="mt-2 text-center">
-                    <p class="text-sm font-medium truncate w-full text-gray-400">
+                    <p class="text-sm font-medium truncate w-full text-gray-900">
                         ${Utils.toTitleCase(icon.name)}
                     </p>
                 </div>
-                <div class="icon-actions flex justify-center gap-2 mt-3">
-                    <button class="copy-svg-btn bg-gray-100 hover:bg-gray-200 text-gray-700 text-xs py-1 px-2 rounded"
+                <div class="icon-actions">
+                    <button class="download-svg-btn bg-gray-800 hover:bg-gray-900 text-white text-xs py-2 px-4 rounded w-40 flex items-center justify-center gap-2"
                         data-id="${icon.id}">
-                        Copy SVG
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                        </svg>
+                        Download SVG
                     </button>
-                    <button class="copy-jsx-btn bg-gray-100 hover:bg-gray-200 text-gray-700 text-xs py-1 px-2 rounded"
-                        data-id="${icon.id}">
-                        Copy JSX
-                    </button>
+                    <div class="dropdown w-40">
+                        <button class="copy-svg-btn bg-white border border-gray-300 hover:bg-gray-100 text-gray-800 text-xs py-2 px-4 rounded w-full flex items-center justify-center gap-2"
+                            data-id="${icon.id}">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                            </svg>
+                            Copy SVG
+                            <svg class="w-4 h-4 ml-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                            </svg>
+                        </button>
+                        <div class="dropdown-content">
+                            <a href="#" class="copy-jsx-btn flex items-center gap-2" data-id="${icon.id}">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
+                                </svg>
+                                Copy JSX
+                            </a>
+                        </div>
+                    </div>
                 </div>
             `;
             
@@ -211,6 +190,65 @@ export class UIManager {
         // Load all SVGs in parallel
         Promise.allSettled(loadPromises).then(() => {
             console.log('All icons loaded or attempted to load');
+        });
+        
+        // Set up event listeners after rendering
+        this.setupIconEventListeners();
+    }
+
+    // Set up event listeners for the icons
+    setupIconEventListeners() {
+        // Set up download button functionality
+        document.querySelectorAll('.download-svg-btn').forEach(button => {
+            button.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const iconId = button.getAttribute('data-id');
+                const icon = this.state.getIconById(iconId);
+                if (icon) {
+                    this.downloadSvg(icon);
+                }
+            });
+        });
+        
+        // Set up copy SVG functionality
+        document.querySelectorAll('.copy-svg-btn').forEach(button => {
+            button.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const iconId = button.getAttribute('data-id');
+                const icon = this.state.getIconById(iconId);
+                if (icon) {
+                    this.copySvgToClipboard(icon);
+                }
+            });
+        });
+        
+        // Set up copy JSX functionality
+        document.querySelectorAll('.copy-jsx-btn').forEach(button => {
+            button.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const iconId = button.closest('.dropdown').querySelector('.copy-svg-btn').getAttribute('data-id');
+                const icon = this.state.getIconById(iconId);
+                if (icon) {
+                    this.copyJsxToClipboard(icon);
+                }
+            });
+        });
+        
+        // Set up click on icon to open modal
+        document.querySelectorAll('.icon-item').forEach(item => {
+            item.addEventListener('click', (e) => {
+                if (!e.target.closest('.download-svg-btn') && 
+                    !e.target.closest('.copy-svg-btn') && 
+                    !e.target.closest('.copy-jsx-btn') &&
+                    !e.target.closest('.dropdown-content')) {
+                    
+                    const iconId = item.getAttribute('data-id');
+                    const icon = this.state.getIconById(iconId);
+                    if (icon) {
+                        this.openIconModal(icon);
+                    }
+                }
+            });
         });
     }
     
@@ -246,25 +284,6 @@ export class UIManager {
             svgContainer.innerHTML = '';
             svgContainer.appendChild(svgElement);
             
-            // Set up click events
-            iconDiv.addEventListener('click', (e) => {
-                // Don't trigger if clicking on the buttons
-                if (!e.target.closest('.copy-svg-btn') && !e.target.closest('.copy-jsx-btn')) {
-                    this.openIconModal(icon);
-                }
-            });
-            
-            // Set up copy buttons
-            iconDiv.querySelector('.copy-svg-btn').addEventListener('click', (e) => {
-                e.stopPropagation();
-                this.copySvgToClipboard(icon);
-            });
-            
-            iconDiv.querySelector('.copy-jsx-btn').addEventListener('click', (e) => {
-                e.stopPropagation();
-                this.copyJsxToClipboard(icon);
-            });
-            
             return true;
         } catch (error) {
             console.error(`Error loading icon ${icon.name}:`, error);
@@ -278,6 +297,42 @@ export class UIManager {
             `;
             
             return false;
+        }
+    }
+
+    // Download SVG
+    async downloadSvg(icon) {
+        try {
+            if (!this.iconCache[icon.id]) {
+                const svgContent = await this.iconService.loadSvg(icon);
+                if (svgContent) {
+                    this.iconCache[icon.id] = svgContent;
+                } else {
+                    throw new Error('Failed to load icon');
+                }
+            }
+            
+            const svg = SvgUtils.generateSvgCode(this.iconCache[icon.id], this.state.currentColor);
+            
+            // Create a blob from the SVG content
+            const blob = new Blob([svg], { type: 'image/svg+xml' });
+            const url = URL.createObjectURL(blob);
+            
+            // Create a temporary link to download the file
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = `${icon.name}.svg`;
+            document.body.appendChild(link);
+            link.click();
+            
+            // Clean up
+            document.body.removeChild(link);
+            URL.revokeObjectURL(url);
+            
+            this.showToast('SVG downloaded!');
+        } catch (error) {
+            console.error('Failed to download SVG:', error);
+            this.showToast('Failed to download SVG', 'error');
         }
     }
 
