@@ -1,6 +1,30 @@
 {
   "items": [
     {
+      "id": "academic-cap-stroke",
+      "name": "Academic Cap",
+      "description": "Academic cap icon for education",
+      "subcategory": "interface",
+      "filePath": "assets/stroke/heroicons/academic-cap.svg"
+    },
+    {
+      "id": "adjustments-horizontal-stroke",
+      "name": "Adjustments Horizontal",
+      "description": "Adjustments horizontal icon for settings",
+      "subcategory": "interface",
+      "filePath": "assets/stroke/heroicons/adjustments-horizontal.svg"
+    },
+    {
+      "id": "adjustments-vertical-stroke",
+      "name": "Adjustments Vertical",
+      "description": "Adjustments vertical icon for settings",
+      "subcategory": "interface",
+      "filePath": "assets/stroke/heroicons/adjustments-vertical.svg"
+    },
+
+
+
+    {
       "id": "heart-stroke",
       "name": "heart",
       "description": "Heart or favorite icon",
@@ -13,6 +37,13 @@
       "description": "Star outline for ratings",
       "subcategory": "interface",
       "filePath": "assets/stroke/star.svg"
+    },
+    {
+      "id": "shopping-cart-stroke",
+      "name": "Shooping cart",
+      "description": "shopping-cart outline for ratings",
+      "subcategory": "interface",
+      "filePath": "assets/stroke/shopping-cart.svg"
     },
     {
       "id": "bell-stroke",

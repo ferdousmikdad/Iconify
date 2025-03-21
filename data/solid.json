@@ -1,5 +1,18 @@
 {
   "items": [
+    
+    {
+      "id": "academic-cap",
+      "name": "Academic Cap",
+      "description": "Search or magnifying glass",
+      "subcategory": "interface",
+      "filePath": "assets/solid/heroicons/academic-cap.svg"
+    },
+
+
+
+
+
     {
       "id": "home-solid",
       "name": "home",
@@ -83,6 +96,13 @@
       "description": "Camera for photos",
       "subcategory": "media",
       "filePath": "assets/solid/camera.svg"
+    },
+    {
+      "id": "video-camera-solid",
+      "name": "video-camera",
+      "description": "video-camera for photos",
+      "subcategory": "media",
+      "filePath": "assets/solid/video-camera.svg"
     },
     {
       "id": "bell-solid",

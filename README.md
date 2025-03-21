@@ -123,3 +123,4 @@ It's recommended to use modern browsers like Chrome, Firefox, Safari, or Edge.
 
 This project is open-source and available for personal and commercial use.
 # Iconify
+
